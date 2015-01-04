@@ -1,11 +1,11 @@
-package de.fresko.auftragsverwaltung.lieferantenverwaltung.entity;
+package de.fresko.auftragsverwaltung.providermanagement.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Lieferant implements Serializable {
+public class Provider implements Serializable {
 
     @Id
     private long id;
@@ -20,7 +20,7 @@ public class Lieferant implements Serializable {
     private String mobil;
     private String telefax;
 
-    public Lieferant() {
+    public Provider() {
 //		mysql 					= new Mysql();
 //		conn 					= mysql.getConnection();
 //		
@@ -28,10 +28,10 @@ public class Lieferant implements Serializable {
 //		stmtLieferantId 		= conn.prepareStatement("SELECT * FROM view_lieferantendetails WHERE lieferant_id = ?");
     }
 
-    public Lieferant(int lieferantId) {
+    public Provider(int lieferantId) {
     }
 
-    public Lieferant(String lieferantName) {
+    public Provider(String lieferantName) {
     }
 
     public long getLieferantId() {

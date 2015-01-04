@@ -5,11 +5,7 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.show_sql" value="true"/>
-      <!-- create ist scheinbar buggy :-( 
-                 http://www.guj.com.br/java/309376-problema-com-wildflyjboss-810- -jpa-21 (das Leerzeichen muss entfernt werden)
-            -->
-      <!--<property name="javax.persistence.schema-generation.database.action" value="create"/>-->
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.hbm2ddl.auto" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

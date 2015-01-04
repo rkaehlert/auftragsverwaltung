@@ -1,50 +1,52 @@
-package de.fresko.auftragsverwaltung.auftragsverwaltung.entity;
+package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
-import de.fresko.auftragsverwaltung.lieferantenverwaltung.entity.Lieferant;
+import de.fresko.auftragsverwaltung.providermanagement.entity.Provider;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Fremdleistung implements Serializable {
+public class ExternalService implements Serializable {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private long id;
     private String beschreibung;
     private double kosten;
     private String datum;
     private boolean bearbeitet;
 
     @ManyToOne
-    private Lieferant lieferant;
+    private Provider lieferant;
 
-    public Fremdleistung(String id, String beschreibung, double kosten, int lieferantId, String datum) {
+    public ExternalService(String beschreibung, double kosten, int lieferantId, String datum) {
         this.id = id;
         this.beschreibung = beschreibung;
         this.kosten = kosten;
         this.datum = datum;
-        this.lieferant = new Lieferant(lieferantId);
+        this.lieferant = new Provider(lieferantId);
         bearbeitet = false;
     }
 
-    public Fremdleistung(String id, String beschreibung, double kosten, String lieferantName, String datum) {
+    public ExternalService(String beschreibung, double kosten, String lieferantName, String datum) {
         this.id = id;
         this.beschreibung = beschreibung;
         this.kosten = kosten;
         this.datum = datum;
-        this.lieferant = new Lieferant(lieferantName);
+        this.lieferant = new Provider(lieferantName);
         bearbeitet = false;
     }
 
     //Getter und Setter
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public int getIntId() {
-        return Integer.valueOf(id);
+    public long getIntId() {
+        return id;
     }
 
     public String getBeschreibung() {
@@ -63,12 +65,12 @@ public class Fremdleistung implements Serializable {
         this.kosten = kosten;
     }
 
-    public Lieferant getLieferant() {
+    public Provider getLieferant() {
         return lieferant;
     }
 
     public void setLieferant(String name) {
-        lieferant = new Lieferant(name);
+        lieferant = new Provider(name);
     }
 
     public String getDatum() {

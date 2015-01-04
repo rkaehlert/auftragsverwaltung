@@ -1,8 +1,8 @@
-package de.fresko.auftragsverwaltung.auftragsverwaltung.entity;
+package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
 import de.fresko.auftragsverwaltung.exceptions.*;
-import de.fresko.auftragsverwaltung.kundenverwaltung.entity.Kunde;
-import de.fresko.auftragsverwaltung.userverwaltung.entity.FreskoUser;
+import de.fresko.auftragsverwaltung.customermanagement.entity.Customer;
+import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
 
 import java.util.*;
@@ -12,129 +12,138 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
-//@Entity
-public class Auftrag implements Serializable {
+@Entity
+public class Job implements Serializable {
 
     @Id
-    private String jobnummer;
-    private String eingangsdatum;
-    //@ManyToMany
-    private LinkedList<FreskoUser> bearbeiter;
-    private String lieferart;
-    private String beschreibung;
-    private String besonderheiten;
-    private String kontakt;
-    private String rechnungsnummer;
-    private String abschlussdatum;
+    private String jobID;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateIncoming;
+    @ManyToMany
+    private Set<FreskoUser> arranger;
+    private String delivery;
+    private String description;
+    private String note;
+    private String contact;
+    private String invoiceNumber;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateFinished;
 
-    //@ManyToOne
-    private Kunde kunde;
+    @ManyToOne
+    private Customer customer;
 
-    //@OneToMany(fetch = FetchType.LAZY)
-    private Set<Arbeitsschritt> arbeitsschritte;
-    //@OneToMany(fetch = FetchType.LAZY)
-    private Set<Fremdleistung> fremdleistungen;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Task> tasks;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<ExternalService> externalServices;
 
-    public Auftrag() {
+    public Job() {
     }
 
-    public String getJobnummer() {
-        return jobnummer;
+    public String getjobID() {
+        return jobID;
     }
 
-    public String getEingangsdatum() {
-        return eingangsdatum;
+    public String getJobID() {
+        return jobID;
     }
 
-    public LinkedList<FreskoUser> getBearbeiter() {
-        return bearbeiter;
+    public void setJobID(String jobID) {
+        this.jobID = jobID;
     }
 
-    public String getLieferart() {
-        return lieferart;
+    public Date getDateIncoming() {
+        return dateIncoming;
     }
 
-    public String getBeschreibung() {
-        return beschreibung;
+    public void setDateIncoming(Date dateIncoming) {
+        this.dateIncoming = dateIncoming;
     }
 
-    public String getBesonderheiten() {
-        return besonderheiten;
+    public Set<FreskoUser> getArranger() {
+        return arranger;
     }
 
-    public String getKontakt() {
-        return kontakt;
+    public void setArranger(Set<FreskoUser> bearbeiter) {
+        this.arranger = bearbeiter;
     }
 
-    public String getRechnungsnummer() {
-        return rechnungsnummer;
+    public String getDelivery() {
+        return delivery;
     }
 
-    public String getAbschlussdatum() {
-        return abschlussdatum;
+    public void setDelivery(String delivery) {
+        this.delivery = delivery;
     }
 
-    public Kunde getKunde() {
-        return kunde;
+    public String getDescription() {
+        return description;
     }
 
-    public Set<Arbeitsschritt> getArbeitsschritte() {
-        return arbeitsschritte;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Set<Fremdleistung> getFremdleistungen() {
-        return fremdleistungen;
+    public String getNote() {
+        return note;
     }
 
-    public void setJobnummer(String jobnummer) {
-        this.jobnummer = jobnummer;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public void setEingangsdatum(String eingangsdatum) {
-        this.eingangsdatum = eingangsdatum;
+    public String getContact() {
+        return contact;
     }
 
-    public void setBearbeiter(LinkedList<FreskoUser> bearbeiter) {
-        this.bearbeiter = bearbeiter;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
-    public void setLieferart(String lieferart) {
-        this.lieferart = lieferart;
+    public String getInvoiceNumber() {
+        return invoiceNumber;
     }
 
-    public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung;
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 
-    public void setBesonderheiten(String besonderheiten) {
-        this.besonderheiten = besonderheiten;
+    public Date getDateFinished() {
+        return dateFinished;
     }
 
-    public void setKontakt(String kontakt) {
-        this.kontakt = kontakt;
+    public void setDateFinished(Date dateFinished) {
+        this.dateFinished = dateFinished;
     }
 
-    public void setRechnungsnummer(String rechnungsnummer) {
-        this.rechnungsnummer = rechnungsnummer;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAbschlussdatum(String abschlussdatum) {
-        this.abschlussdatum = abschlussdatum;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public void setKunde(Kunde kunde) {
-        this.kunde = kunde;
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
-    public void setArbeitsschritte(Set<Arbeitsschritt> arbeitsschritte) {
-        this.arbeitsschritte = arbeitsschritte;
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 
-    public void setFremdleistungen(Set<Fremdleistung> fremdleistungen) {
-        this.fremdleistungen = fremdleistungen;
+    public Set<ExternalService> getExternalServices() {
+        return externalServices;
     }
 
+    public void setExternalServices(Set<ExternalService> externalServices) {
+        this.externalServices = externalServices;
+    }
+
+    
+    
     public String erzeugeJobnummer() throws JobnummerException {
 //		String jobnummer = null;
 //		StringTokenizer st;
@@ -194,7 +203,7 @@ public class Auftrag implements Serializable {
 //		}
 //		catch(SQLException sqlex) {JOptionPane.showMessageDialog(null, sqlex.getMessage());}
 //		
-        return jobnummer;
+        return jobID;
     }
 
 //------------------------------------------Arbeitsschrittmethoden-----------------------------------------

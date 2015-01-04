@@ -1,12 +1,14 @@
-package de.fresko.auftragsverwaltung.userverwaltung.entity;
+package de.fresko.auftragsverwaltung.usermanagement.entity;
 
-import de.fresko.auftragsverwaltung.auftragsverwaltung.entity.Auftrag;
-import de.fresko.auftragsverwaltung.userverwaltung.controller.PWService;
+import de.fresko.auftragsverwaltung.jobmanagement.entity.Job;
+import de.fresko.auftragsverwaltung.usermanagement.controller.PWService;
 import java.io.Serializable;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,12 +58,18 @@ public class FreskoUser implements Serializable {
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastLogin;
-    //@ManyToMany(mappedBy = "bearbeiter")
-    private LinkedList<Auftrag> auftraege;
+    @ManyToMany(mappedBy = "arranger")
+    private Set<Job> auftraege;
 
     public FreskoUser() {
     }
 
+    public FreskoUser(Long id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+    
     public FreskoUser(String email, String password, Date lastLogin) {
         this.email = email;
         this.password = password;
@@ -150,5 +158,24 @@ public class FreskoUser implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        FreskoUser user = (FreskoUser)obj;
+        return Objects.equals(user.id, this.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.email);
+        return hash;
     }
 }

@@ -1,4 +1,4 @@
-package de.fresko.auftragsverwaltung.userverwaltung.controller;
+package de.fresko.auftragsverwaltung.usermanagement.controller;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

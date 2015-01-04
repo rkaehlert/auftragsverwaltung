@@ -5,22 +5,26 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="content">
-        <p:dataTable var="job" value="#{jobListProducer.jobs}">
-            <p:column headerText="Id">
-                <h:outputText value="#{job.beschreibung}" />
-            </p:column>
-
-            <p:column headerText="Year">
-                <h:outputText value="#{job.besonderheiten}" />
-            </p:column>
-
-            <p:column headerText="Brand">
-                <h:outputText value="#{job.kontakt}" />
-            </p:column>
-
-            <p:column  headerText="Color">
-                <h:outputText value="#{job.lieferart}" />
-            </p:column>
-        </p:dataTable>
+        <h1>Jobs</h1>
+        <h:form acceptcharset="ISO-8859-1">
+            <p:dataTable var="job" value="#{jobListProducer.jobs}">
+                <p:column headerText="Auftragsnummer">
+                    <h:outputText value="#{job.jobID}" />
+                </p:column>
+                <p:column headerText="Kunde">
+                    <h:outputText value="#{job.customer.name}" />
+                </p:column>
+                <p:column headerText="Beschreibung">
+                    <h:outputText value="#{job.description}" />
+                </p:column>
+                <p:column  headerText="Eingangsdatum">
+                    <h:outputText value="#{job.dateIncoming}" />
+                </p:column>
+                <p:column>
+                    <p:commandButton value="bearbeiten" action="#{jobListController.doEditJob(job)}" />
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="Job erstellen" action="#{jobListController.doAddJob()}" />
+        </h:form>
     </ui:define>
 </ui:composition>

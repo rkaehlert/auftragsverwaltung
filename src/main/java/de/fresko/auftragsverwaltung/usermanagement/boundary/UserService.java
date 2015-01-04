@@ -1,13 +1,14 @@
-package de.fresko.auftragsverwaltung.userverwaltung.boundary;
+package de.fresko.auftragsverwaltung.usermanagement.boundary;
 
-import de.fresko.auftragsverwaltung.userverwaltung.entity.FreskoUser;
+import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Stateless
+@Named
 public class UserService {
 
     @PersistenceContext

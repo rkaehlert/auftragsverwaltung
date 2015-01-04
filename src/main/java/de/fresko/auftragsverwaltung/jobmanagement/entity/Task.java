@@ -1,4 +1,4 @@
-package de.fresko.auftragsverwaltung.auftragsverwaltung.entity;
+package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Arbeitsschritt implements Serializable {
+public class Task implements Serializable {
 
     @Id
     @GeneratedValue
@@ -17,10 +17,10 @@ public class Arbeitsschritt implements Serializable {
     private String datum;
     private boolean bearbeitet;
 
-    public Arbeitsschritt() {
+    public Task() {
     }
 
-    public Arbeitsschritt(long id, String beschreibung, String bearbeiter, int zeit, String datum) {
+    public Task(long id, String beschreibung, String bearbeiter, int zeit, String datum) {
         this.id = id;
         this.beschreibung = beschreibung;
         this.zeit = zeit;
