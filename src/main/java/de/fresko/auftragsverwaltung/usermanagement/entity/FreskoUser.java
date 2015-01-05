@@ -44,22 +44,16 @@ public class FreskoUser implements Serializable {
 
     @Column(unique = true)
     @Size(min = 2, max = 240)
-    private String email;
+    private String username;
     private String password;
 
     private String firstname;
     private String lastname;
-    private String street;
-    private String housenumber;
-
-    @Size(max = 10)
-    private String zip;
-    private String city;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastLogin;
-    @ManyToMany(mappedBy = "arranger")
-    private Set<Job> auftraege;
+    @ManyToMany(mappedBy = "arranger", fetch = FetchType.EAGER)
+    private Set<Job> jobs;
 
     public FreskoUser() {
     }
@@ -71,7 +65,7 @@ public class FreskoUser implements Serializable {
     }
     
     public FreskoUser(String email, String password, Date lastLogin) {
-        this.email = email;
+        this.username = email;
         this.password = password;
         this.lastLogin = lastLogin;
     }
@@ -89,11 +83,11 @@ public class FreskoUser implements Serializable {
     }
 
     public String getEmail() {
-        return email;
+        return username;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.username = email;
     }
 
     public String getPassword() {
@@ -128,38 +122,6 @@ public class FreskoUser implements Serializable {
         this.lastname = lastname;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHousenumber() {
-        return housenumber;
-    }
-
-    public void setHousenumber(String housenumber) {
-        this.housenumber = housenumber;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     @Override
     public String toString() {
         return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
@@ -175,7 +137,7 @@ public class FreskoUser implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.email);
+        hash = 89 * hash + Objects.hashCode(this.username);
         return hash;
     }
 }

@@ -30,13 +30,14 @@ public class UserService {
         return user;
     }
 
-    public FreskoUser loginUser(String email, String password, String ipAddress) {
+    public FreskoUser loginUser(String email, String password) {
         List<FreskoUser> users = em.createNamedQuery(FreskoUser.FIND_BY_EMAIL, FreskoUser.class)
                 .setParameter(FreskoUser.PARAM_EMAIL, email)
                 .getResultList();
 
         if (users.isEmpty())
             return null;
+        
         FreskoUser user = users.get(0);
 
         if (!user.checkPassword(password))
@@ -45,7 +46,5 @@ public class UserService {
         user.setLastLogin(new Date());
 
         return user;
-
     }
-
 }

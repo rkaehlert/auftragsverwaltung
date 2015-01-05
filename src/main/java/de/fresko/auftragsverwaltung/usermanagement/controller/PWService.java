@@ -2,12 +2,7 @@ package de.fresko.auftragsverwaltung.usermanagement.controller;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.UUID;
 
-/**
- *
- * @author Matthias Reining
- */
 public class PWService {
     private static final String PEPPER = "Zd3zLXmrV9z3tBRGifhK";
 

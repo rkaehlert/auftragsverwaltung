@@ -1,5 +1,6 @@
 package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
+import de.fresko.auftragsverwaltung.companymanagement.entity.Company;
 import de.fresko.auftragsverwaltung.exceptions.*;
 import de.fresko.auftragsverwaltung.customermanagement.entity.Customer;
 import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
@@ -18,7 +19,7 @@ import javax.persistence.Temporal;
 public class Job implements Serializable {
 
     @Id
-    private String jobID;
+    private String id;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateIncoming;
     @ManyToMany
@@ -32,7 +33,7 @@ public class Job implements Serializable {
     private Date dateFinished;
 
     @ManyToOne
-    private Customer customer;
+    private Company customer;
 
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Task> tasks;
@@ -40,18 +41,15 @@ public class Job implements Serializable {
     private Set<ExternalService> externalServices;
 
     public Job() {
+        id = "job-123";
     }
 
-    public String getjobID() {
-        return jobID;
+    public String getId() {
+        return id;
     }
 
-    public String getJobID() {
-        return jobID;
-    }
-
-    public void setJobID(String jobID) {
-        this.jobID = jobID;
+    public void setId(String jobID) {
+        this.id = jobID;
     }
 
     public Date getDateIncoming() {
@@ -118,11 +116,11 @@ public class Job implements Serializable {
         this.dateFinished = dateFinished;
     }
 
-    public Customer getCustomer() {
+    public Company getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Company customer) {
         this.customer = customer;
     }
 
@@ -203,7 +201,7 @@ public class Job implements Serializable {
 //		}
 //		catch(SQLException sqlex) {JOptionPane.showMessageDialog(null, sqlex.getMessage());}
 //		
-        return jobID;
+        return id;
     }
 
 //------------------------------------------Arbeitsschrittmethoden-----------------------------------------

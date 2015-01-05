@@ -1,6 +1,8 @@
 package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
+import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,65 +13,62 @@ public class Task implements Serializable {
     @Id
     @GeneratedValue
     private long id;
-    private String beschreibung;
-    private int zeit;
-    private String bearbeiter;
-    private String datum;
-    private boolean bearbeitet;
+    private String description;
+    private int neededTime;
+    private FreskoUser arranger;
+    private Date dateFinished;
+    private boolean finished;
 
     public Task() {
-    }
-
-    public Task(long id, String beschreibung, String bearbeiter, int zeit, String datum) {
-        this.id = id;
-        this.beschreibung = beschreibung;
-        this.zeit = zeit;
-        this.bearbeiter = bearbeiter;
-        this.datum = datum;
-        bearbeitet = false;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getBeschreibung() {
-        return beschreibung;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung;
+    public String getDescription() {
+        return description;
     }
 
-    public int getZeit() {
-        return zeit;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setZeit(int zeit) {
-        this.zeit = zeit;
+    public int getNeededTime() {
+        return neededTime;
     }
 
-    public String getBearbeiter() {
-        return bearbeiter;
+    public void setNeededTime(int neededTime) {
+        this.neededTime = neededTime;
     }
 
-    public void setBearbeiter(String bearbeiter) {
-        this.bearbeiter = bearbeiter;
+    public FreskoUser getArranger() {
+        return arranger;
     }
 
-    public String getDatum() {
-        return datum;
+    public void setArranger(FreskoUser arranger) {
+        this.arranger = arranger;
     }
 
-    public void setDatum(String datum) {
-        this.datum = datum;
+    public Date getDateFinished() {
+        return dateFinished;
     }
 
-    public void setBearbeitet() {
-        bearbeitet = true;
+    public void setDateFinished(Date dateFinished) {
+        this.dateFinished = dateFinished;
     }
 
-    public boolean isBearbeitet() {
-        return bearbeitet;
+    public boolean isFinished() {
+        return finished;
     }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    
 }

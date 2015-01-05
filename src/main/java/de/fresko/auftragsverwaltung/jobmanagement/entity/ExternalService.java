@@ -1,5 +1,6 @@
 package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
+import de.fresko.auftragsverwaltung.companymanagement.entity.Company;
 import de.fresko.auftragsverwaltung.providermanagement.entity.Provider;
 import java.io.Serializable;
 
@@ -14,78 +15,59 @@ public class ExternalService implements Serializable {
     @Id
     @GeneratedValue
     private long id;
-    private String beschreibung;
-    private double kosten;
-    private String datum;
-    private boolean bearbeitet;
+    private String description;
+    private double cost;
+    private String dateFinished;
+    private boolean finished;
 
     @ManyToOne
-    private Provider lieferant;
+    private Company provider;
 
-    public ExternalService(String beschreibung, double kosten, int lieferantId, String datum) {
-        this.id = id;
-        this.beschreibung = beschreibung;
-        this.kosten = kosten;
-        this.datum = datum;
-        this.lieferant = new Provider(lieferantId);
-        bearbeitet = false;
-    }
-
-    public ExternalService(String beschreibung, double kosten, String lieferantName, String datum) {
-        this.id = id;
-        this.beschreibung = beschreibung;
-        this.kosten = kosten;
-        this.datum = datum;
-        this.lieferant = new Provider(lieferantName);
-        bearbeitet = false;
-    }
-
-    //Getter und Setter
     public long getId() {
         return id;
     }
 
-    public long getIntId() {
-        return id;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getBeschreibung() {
-        return beschreibung;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getKosten() {
-        return kosten;
+    public double getCost() {
+        return cost;
     }
 
-    public void setKosten(double kosten) {
-        this.kosten = kosten;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
-    public Provider getLieferant() {
-        return lieferant;
+    public String getDateFinished() {
+        return dateFinished;
     }
 
-    public void setLieferant(String name) {
-        lieferant = new Provider(name);
+    public void setDateFinished(String dateFinished) {
+        this.dateFinished = dateFinished;
     }
 
-    public String getDatum() {
-        return datum;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setDatum(String datum) {
-        this.datum = datum;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
-    public void setBearbeitet() {
-        bearbeitet = true;
+    public Company getProvider() {
+        return provider;
     }
 
-    public boolean isBearbeitet() {
-        return bearbeitet;
+    public void setProvider(Company provider) {
+        this.provider = provider;
     }
 }

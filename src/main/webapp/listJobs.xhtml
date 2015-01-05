@@ -9,7 +9,7 @@
         <h:form acceptcharset="ISO-8859-1">
             <p:dataTable var="job" value="#{jobListProducer.jobs}">
                 <p:column headerText="Auftragsnummer">
-                    <h:outputText value="#{job.jobID}" />
+                    <h:outputText value="#{job.id}" />
                 </p:column>
                 <p:column headerText="Kunde">
                     <h:outputText value="#{job.customer.name}" />
@@ -17,14 +17,13 @@
                 <p:column headerText="Beschreibung">
                     <h:outputText value="#{job.description}" />
                 </p:column>
-                <p:column  headerText="Eingangsdatum">
+                <p:column headerText="Eingangsdatum">
                     <h:outputText value="#{job.dateIncoming}" />
                 </p:column>
                 <p:column>
                     <p:commandButton value="bearbeiten" action="#{jobListController.doEditJob(job)}" />
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Job erstellen" action="#{jobListController.doAddJob()}" />
         </h:form>
     </ui:define>
 </ui:composition>

@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h1>Firmen</h1>
+        <h:form acceptcharset="ISO-8859-1">
+            <p:dataTable var="company" value="#{companyListProducer.companies}">
+                <p:column headerText="Name">
+                    <p:inplace id="name" editor="true">
+                        <p:inputText value="#{company.name}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="Ort">
+                    <p:inplace id="town" editor="true">
+                    <p:inputText value="#{company.town}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="ist Kunde">
+                    <p:inplace id="isCustomer" editor="true" label="#{company.isCustomer ? 'ja' : 'nein'}">
+                        <h:selectBooleanCheckbox  value="#{company.isCustomer}" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="ist Zulieferer">
+                    <p:inplace id="isProvider" editor="true" label="#{company.isProvider ? 'ja' : 'nein'}">
+                        <h:selectBooleanCheckbox value="#{company.isProvider}" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
