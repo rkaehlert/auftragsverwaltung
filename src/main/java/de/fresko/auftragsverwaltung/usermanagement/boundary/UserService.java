@@ -4,11 +4,12 @@ import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Named
+@Stateless
 public class UserService {
 
     @PersistenceContext
@@ -31,17 +32,21 @@ public class UserService {
     }
 
     public FreskoUser loginUser(String email, String password) {
-        List<FreskoUser> users = em.createNamedQuery(FreskoUser.FIND_BY_EMAIL, FreskoUser.class)
-                .setParameter(FreskoUser.PARAM_EMAIL, email)
+        List<FreskoUser> users = em.createNamedQuery(FreskoUser.FIND_BY_USERNAME, FreskoUser.class)
+                .setParameter(FreskoUser.PARAM_USERNAME, email)
                 .getResultList();
 
-        if (users.isEmpty())
+        if (users.isEmpty()) {
+            System.out.println("no user");
             return null;
+        }
         
         FreskoUser user = users.get(0);
 
-        if (!user.checkPassword(password))
+        if (!user.checkPassword(password)) {
+            System.out.println("wrong pw");
             return null;
+        }
 
         user.setLastLogin(new Date());
 

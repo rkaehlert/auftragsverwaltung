@@ -2,7 +2,6 @@ package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
 import de.fresko.auftragsverwaltung.companymanagement.entity.Company;
 import de.fresko.auftragsverwaltung.exceptions.*;
-import de.fresko.auftragsverwaltung.customermanagement.entity.Customer;
 import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
 
@@ -36,14 +35,18 @@ public class Job implements Serializable {
     private Company customer;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private Set<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY)
-    private Set<ExternalService> externalServices;
+    private List<ExternalService> externalServices = new ArrayList<>();
 
     public Job() {
         id = "job-123";
     }
 
+    public void addTask(Task t) {
+        this.tasks.add(t);
+    }
+    
     public String getId() {
         return id;
     }
@@ -124,23 +127,21 @@ public class Job implements Serializable {
         this.customer = customer;
     }
 
-    public Set<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 
-    public Set<ExternalService> getExternalServices() {
+    public List<ExternalService> getExternalServices() {
         return externalServices;
     }
 
-    public void setExternalServices(Set<ExternalService> externalServices) {
+    public void setExternalServices(List<ExternalService> externalServices) {
         this.externalServices = externalServices;
     }
-
-    
     
     public String erzeugeJobnummer() throws JobnummerException {
 //		String jobnummer = null;
@@ -203,18 +204,4 @@ public class Job implements Serializable {
 //		
         return id;
     }
-
-//------------------------------------------Arbeitsschrittmethoden-----------------------------------------
-//	private Set<Arbeitsschritt> arbeitsschritteLaden() throws SQLException
-//	{
-//		stmtSelectArbeitsschritte.setString(1, jobnummer);
-//		ResultSet result_as = stmtSelectArbeitsschritte.executeQuery();
-//			
-//		while(result_as.next())
-//		{
-//			schritte.add(new Arbeitsschritt(result_as.getString("arbeitsschritt_id"), result_as.getString("arbeitsschritt_beschreibung"), result_as.getString("arbeitsschritt_wer"), result_as.getInt("arbeitsschritt_zeit"), result_as.getString("arbeitsschritt_wann")));
-//		}
-//		
-//		return schritte;
-//	}
 }

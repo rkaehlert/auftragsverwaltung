@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:outputScript library="js" name="script.js" />
+        <h1>#{jobViewController.title}</h1>
+        <p:tabView>
+            <p:tab title="Jobdetails">
+                <h:form>
+                    <p:panelGrid columns="2" styleClass="edit left columns two">
+                        <f:facet name="header">Jobdetails</f:facet>
+
+                        <p:outputLabel for="dateIncoming" value="Jobnummer:" />
+                        <h:outputText id="jobId" value="#{jobViewController.job.id}" />
+
+                        <p:outputLabel for="dateIncoming" value="Eingangsdatum:" />
+                        <h:outputText id="dateIncoming" value="#{jobViewController.job.dateIncoming}" />
+
+                        <p:outputLabel for="arranger" value="Bearbeiter:" />
+                        <ui:repeat id="arranger" value="#{jobViewController.job.arranger}" var="arranger">
+                            <h:outputText value="#{arranger.firstname} #{arranger.lastname}" />
+                        </ui:repeat>
+
+                        <p:outputLabel for="delivery" value="Lieferart:" />
+                        <h:outputText id="delivery" value="#{jobViewController.job.delivery}" />
+
+                        <p:outputLabel for="description" value="Beschreibung:" />
+                        <h:outputText id="description" value="#{jobViewController.job.description}" />
+
+                        <p:outputLabel for="note" value="Notizen:" />
+                        <h:outputText id="note" value="#{jobViewController.job.note}" />
+
+                        <p:outputLabel for="invoiceNumber" value="Rechnungsnummer:" />
+                        <h:outputText id="invoiceNumber" value="#{jobViewController.job.invoiceNumber}" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" styleClass="edit right columns two">
+                        <f:facet name="header">Kunde</f:facet>
+
+                        <p:outputLabel for="customer" value="Kunde:" />
+                        <h:outputText id="customer" value="#{jobViewController.job.customer.name}" />
+
+                        <p:outputLabel for="zip" value="PLZ: " />
+                        <h:outputText id="zip" value="#{jobViewController.job.customer.zip}" />
+
+                        <p:outputLabel for="town" value="Stadt: " />
+                        <h:outputText id="town" value="#{jobViewController.job.customer.town}" />
+
+                        <p:outputLabel for="street" value="Straße: " />
+                        <h:outputText id="street" value="#{jobViewController.job.customer.street}" />
+
+                        <p:outputLabel for="contactPerson" value="Ansprechpartner: " />
+                        <h:outputText id="contactPerson" value="#{jobViewController.job.customer.contactPerson}" />
+
+                        <p:outputLabel for="phone" value="Telefon: " />
+                        <h:outputText id="phone" value="#{jobViewController.job.customer.phone}" />
+
+                        <p:outputLabel for="mobile" value="Mobil: " />
+                        <h:outputText id="mobile" value="#{jobViewController.job.customer.mobile}" />
+
+                        <p:outputLabel for="fax" value="Fax: " />
+                        <h:outputText id="fax" value="#{jobViewController.job.customer.fax}" />
+
+                        <p:outputLabel for="mail" value="Mail: " />
+                        <h:outputText id="mail" value="#{jobViewController.job.customer.mail}" />
+                    </p:panelGrid>
+                    <div class="clearfix"></div>
+                </h:form>
+            </p:tab>
+            <p:tab title="Tasks">
+                <p:dataList id="tasks" value="#{jobViewController.job.tasks}" var="task">
+                    <p:column headerText="Taskbeschreibung">
+                        <h:outputText value="#{task.description}" />
+                    </p:column>
+                    <p:column headerText="Bearbeiter">
+                        <h:outputText value="#{task.arranger}" />
+                    </p:column>
+                    <p:column headerText="Zeit">
+                        <h:outputText value="#{task.neededTime}" />
+                    </p:column>
+                </p:dataList>
+            </p:tab>
+            <p:tab title="Fremdleistungen">
+                <p:dataList id="externalServices" value="#{jobViewController.job.externalServices}" var="ext">
+                    <p:column headerText="Taskbeschreibung">
+                        <h:outputText value="#{ext.description}" />
+                    </p:column>
+                    <p:column headerText="Bearbeiter">
+                        <h:outputText value="#{ext.provider.name}" />
+                    </p:column>
+                    <p:column headerText="Zeit">
+                        <h:outputText value="#{ext.cost}" />
+                    </p:column>
+                </p:dataList>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

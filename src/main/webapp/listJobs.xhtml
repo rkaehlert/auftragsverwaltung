@@ -2,27 +2,37 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/templates/template.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <h1>Jobs</h1>
         <h:form acceptcharset="ISO-8859-1">
-            <p:dataTable var="job" value="#{jobListProducer.jobs}">
-                <p:column headerText="Auftragsnummer">
+            <p:dataTable id="jobsTable" style="width:100%" widgetVar="jobsTable" var="job" value="#{jobListProducer.jobs}"  selectionMode="single" selection="#{jobListTableView.selectedJob}" rowKey="#{job.id}">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="In allen Feldern suchen:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('jobsTable').filter()" style="width:150px" placeholder="Suchbegriff eingeben:"/>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column>
+                    <p:commandButton styleClass="editButton" title="Details anzeigen" action="#{jobListController.doViewJob(job)}" />
+                </p:column>
+                <p:column headerText="Auftragsnummer" filterBy="#{job.id}" filterFunction="#{jobListTableView.filterContainsInsensitive}">
                     <h:outputText value="#{job.id}" />
                 </p:column>
-                <p:column headerText="Kunde">
+                <p:column headerText="Kunde" filterBy="#{job.customer.name}" filterFunction="#{jobListTableView.filterContainsInsensitive}">
                     <h:outputText value="#{job.customer.name}" />
                 </p:column>
-                <p:column headerText="Beschreibung">
+                <p:column headerText="Beschreibung" filterBy="#{job.description}" rendered="true" filterFunction="#{jobListTableView.filterContainsInsensitive}">
                     <h:outputText value="#{job.description}" />
                 </p:column>
-                <p:column headerText="Eingangsdatum">
-                    <h:outputText value="#{job.dateIncoming}" />
+                <p:column headerText="Eingangsdatum" filterBy="#{job.dateIncoming}" filterMatchMode="contains">
+                    <h:outputText value="#{job.dateIncoming}">
+                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                    </h:outputText>
                 </p:column>
-                <p:column>
-                    <p:commandButton value="bearbeiten" action="#{jobListController.doEditJob(job)}" />
-                </p:column>
+                <p:column rendered="false" filterBy="#{jobListController.getAllTasks(job)}" filterFunction="#{jobListTableView.filterContainsInsensitive}" />
             </p:dataTable>
         </h:form>
     </ui:define>

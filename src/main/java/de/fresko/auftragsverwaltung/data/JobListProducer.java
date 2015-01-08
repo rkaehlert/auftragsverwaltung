@@ -1,6 +1,7 @@
 package de.fresko.auftragsverwaltung.data;
 
 import de.fresko.auftragsverwaltung.jobmanagement.entity.Job;
+import de.fresko.auftragsverwaltung.jobmanagement.entity.Task;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -31,6 +32,16 @@ public class JobListProducer implements Serializable {
         job1.setContact("012345678");
         job1.setDelivery("Hand");
         job1.setNote("zu leicht");
+        
+        Task t1 = new Task();
+        t1.setId(1L);
+        t1.setDescription("Task1");
+        Task t2 = new Task();
+        t2.setId(2L);
+        t2.setDescription("bumsen");
+        
+        job1.addTask(t1);
+        job1.addTask(t2);
         
         Job job2 = new Job();
         job2.setId("job-456");

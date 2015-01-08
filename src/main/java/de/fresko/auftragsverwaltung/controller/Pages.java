@@ -8,4 +8,5 @@ public class Pages {
     public static String COMPANY_LIST = "listCompanies";
     public static String COMPANY_EDIT = "editCompany";
     public static String COMPANY_DELETE = "deleteCompany";
+    public static String JOB_VIEW = "detailsJob";
 }

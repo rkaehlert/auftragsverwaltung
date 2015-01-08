@@ -12,13 +12,14 @@
     <h:body>
         <h:outputStylesheet library="css" name="style.css" />
         <div id="container">
-            <div id="content">
-                <div id="login">
-                    <p:inputText id="username" />
-                    <p:password id="password" />
+            <div id="login">
+                <h2>Login</h2>
+                <h:form id="loginForm">
+                    <p:inputText id="username" value="#{loginController.username}" placeholder="Benutzername" />
+                    <p:password id="password" value="#{loginController.password}" placeholder="Passwort" />
                     <p:commandButton id="loginButton" action="#{loginController.login}" value="Anmelden" />
-                </div>
-            </div>  
+                </h:form>
+            </div>
         </div>
     </h:body>
 </html>

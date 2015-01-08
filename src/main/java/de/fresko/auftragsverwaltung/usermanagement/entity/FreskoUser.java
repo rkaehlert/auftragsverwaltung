@@ -5,11 +5,8 @@ import de.fresko.auftragsverwaltung.usermanagement.controller.PWService;
 import java.io.Serializable;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,15 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Size;
 
 @Entity
 @NamedQueries({
     @NamedQuery(
-            name = FreskoUser.FIND_BY_EMAIL,
-            query = "SELECT u FROM FreskoUser u WHERE u.email = :" + FreskoUser.PARAM_EMAIL
+            name = FreskoUser.FIND_BY_USERNAME,
+            query = "SELECT u FROM FreskoUser u WHERE u.username = :" + FreskoUser.PARAM_USERNAME
     ),
     @NamedQuery(
             name = FreskoUser.FIND_ALL,
@@ -34,9 +30,9 @@ import javax.validation.constraints.Size;
     )})
 public class FreskoUser implements Serializable {
 
-    public static final String FIND_BY_EMAIL = "User.FinyByEMail";
+    public static final String FIND_BY_USERNAME = "User.FinyByUsername";
     public static final String FIND_ALL = "User.findAll";
-    public static final String PARAM_EMAIL = "email";
+    public static final String PARAM_USERNAME = "username";
 
     @Id
     @GeneratedValue

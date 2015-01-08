@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fresko.auftragsverwaltung.usermanagement.controller;
 
 import de.fresko.auftragsverwaltung.usermanagement.boundary.UserService;
@@ -23,13 +18,9 @@ public class LoginController implements Serializable {
     @Inject
     UserService userService;
 
-    private String email;
+    private String username;
     private String password;
     private FreskoUser user;
-
-    public FreskoUser getUser() {
-        return user;
-    }
 
     @Produces
     @SessionScoped
@@ -39,10 +30,11 @@ public class LoginController implements Serializable {
     }
 
     public String login() {
-        user = userService.loginUser(email, password);
-
-        if (user != null)
-            return "myJobs?faces-redirect=true";
+        user = userService.loginUser(username, password);
+        if (user != null) {
+            //return "myJobs?faces-redirect=true";
+            return "listJobs?faces-redirect=true";
+        }
 
         //Login fehlgeschlagen, Hinweis Meldung ausgeben
         String msg = "Login fehlgeschlagen.";
@@ -53,12 +45,20 @@ public class LoginController implements Serializable {
         return "login.xhtml";
     }
 
-    public String getEmail() {
-        return email;
+    public FreskoUser getUser() {
+        return user;
+    }
+    
+    public String logout() {
+        return "login.xhtml";
+    }
+    
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String email) {
+        this.username = email;
     }
 
     public String getPassword() {
