@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h1>#{taskEditController.title}</h1>
+        <p:messages globalOnly="false" showDetail="false" showSummary="true" autoUpdate="true" />
+        <h:form>
+            <p:panelGrid columns="2">
+                <f:facet name="header">Taskdetails</f:facet>
+
+                <p:outputLabel for="arranger" value="Bearbeiter:" />
+                <p:selectManyMenu id="arranger" required="true"  validatorMessage="Bitte mindestens einen Bearbeiter angeben." value="#{taskEditController.task.arranger}" filter="true" filterMatchMode="contains" showCheckbox="true" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItems value="#{userItemSelectProvider.users}" var="entity" itemLabel="#{entity.firstname} #{entity.lastname}" itemValue="#{entity}" />
+                    <f:validateRequired />
+                </p:selectManyMenu>
+
+                <p:outputLabel for="description" value="Beschreibung:" />
+                <p:inputTextarea id="description" rows="6" cols="30" value="#{taskEditController.task.description}">
+                    <f:validateRequired />
+                </p:inputTextarea>
+
+                <p:outputLabel for="neededTime" value="Zeiterfassung:" />
+                <p:inputText id="neededTime" value="#{taskEditController.task.neededTime}" />
+
+                <p:outputLabel for="dateFinished" value="Ausgeführt am:" />
+                <p:inputText id="dateFinished" value="#{taskEditController.task.dateFinished}" />
+            </p:panelGrid>
+            <div class="bottomControls">
+                <p:commandButton value="Speichern" action="#{taskEditController.doSave()}" />
+                <p:commandButton value="Abbrechen" action="#{taskEditController.doCancel()}" immediate="true" />
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

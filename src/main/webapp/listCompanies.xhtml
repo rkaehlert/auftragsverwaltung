@@ -5,18 +5,41 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="content">
-        <h1>Firmen</h1>
+        <h:form>
+            <p:breadCrumb>
+                <p:menuitem value="Dashboard" action="#{dashboardController.doLoadDashboard()}" />
+                <p:menuitem value="Firmen" />
+            </p:breadCrumb>
+        </h:form>
         <h:form acceptcharset="ISO-8859-1">
-            <p:dataTable var="company" value="#{companyListProducer.companies}">
+            <p:dataTable var="company" value="#{companies}">
                 <p:column headerText="Name">
                     <p:inplace id="name" editor="true">
                         <p:inputText value="#{company.name}" required="true" label="text" />
                         <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
                     </p:inplace>
                 </p:column>
+                <p:column headerText="Straße">
+                    <p:inplace id="street" editor="true">
+                        <p:inputText value="#{company.street}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="Hsnr">
+                    <p:inplace id="housenumber" editor="true">
+                        <p:inputText value="#{company.housenumber}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="Plz">
+                    <p:inplace id="zip" editor="true">
+                        <p:inputText value="#{company.zip}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
+                    </p:inplace>
+                </p:column>
                 <p:column headerText="Ort">
                     <p:inplace id="town" editor="true">
-                    <p:inputText value="#{company.town}" required="true" label="text" />
+                        <p:inputText value="#{company.town}" required="true" label="text" />
                         <p:ajax event="save" listener="#{companyListController.doEditCompany(company)}" />
                     </p:inplace>
                 </p:column>

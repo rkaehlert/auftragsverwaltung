@@ -70,7 +70,7 @@ body {
 }
 
 .bottomControls > button {
-    
+
 }
 
 .edit .ui-inputfield, .edit .ui-selectonemenu {
@@ -97,4 +97,20 @@ body {
 
 .clearfix {
     clear: both;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+    word-wrap: break-word
+}
+
+.editButton {
+    width: 30px;
+    height: 30px;
+    background: url("../resources/img/edit.png") no-repeat center !important;
+}
+
+.viewButton {
+    width: 30px;
+    height: 30px;
+    background: url("../resources/img/view.png") no-repeat center !important;
 }

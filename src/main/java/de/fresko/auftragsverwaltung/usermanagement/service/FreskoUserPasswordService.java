@@ -1,11 +1,11 @@
-package de.fresko.auftragsverwaltung.usermanagement.controller;
+package de.fresko.auftragsverwaltung.usermanagement.service;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import javax.ejb.Stateless;
 
 @Stateless
-public class PWService {
+public class FreskoUserPasswordService {
     private static final String PEPPER = "Zd3zLXmrV9z3tBRGifhK";
 
     public String createPWHash(String pwClearText) {

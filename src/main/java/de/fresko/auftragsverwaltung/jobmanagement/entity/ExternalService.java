@@ -1,13 +1,16 @@
 package de.fresko.auftragsverwaltung.jobmanagement.entity;
 
 import de.fresko.auftragsverwaltung.companymanagement.entity.Company;
-import de.fresko.auftragsverwaltung.providermanagement.entity.Provider;
+import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 @Entity
 public class ExternalService implements Serializable {
@@ -17,8 +20,14 @@ public class ExternalService implements Serializable {
     private long id;
     private String description;
     private double cost;
-    private String dateFinished;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateFinished;
     private boolean finished;
+
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateTaskAdded;
+    @ManyToOne
+    private FreskoUser userTaskAdded;
 
     @ManyToOne
     private Company provider;
@@ -47,11 +56,11 @@ public class ExternalService implements Serializable {
         this.cost = cost;
     }
 
-    public String getDateFinished() {
+    public Date getDateFinished() {
         return dateFinished;
     }
 
-    public void setDateFinished(String dateFinished) {
+    public void setDateFinished(Date dateFinished) {
         this.dateFinished = dateFinished;
     }
 

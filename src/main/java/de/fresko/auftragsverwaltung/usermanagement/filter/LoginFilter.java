@@ -18,7 +18,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@WebFilter(filterName = "LoginFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter {
 
     @Override
@@ -28,7 +28,7 @@ public class LoginFilter implements Filter {
 
         LoginController lc = (LoginController) ((HttpServletRequest) request).getSession(true).getAttribute("loginController");
         boolean userNotLoggedIn = (lc == null || lc.getUser() == null);
-        
+
         String requestResource = ((HttpServletRequest) request).getRequestURI().toLowerCase();
         boolean loginPage = requestResource.contains("login") 
                 || requestResource.contains(".js")

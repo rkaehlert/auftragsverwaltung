@@ -8,114 +8,85 @@
     <ui:define name="content">
         <h:outputScript library="js" name="script.js" />
         <h1>#{jobEditController.title}</h1>
-        <p:tabView>
-            <p:tab title="Jobdetails">
-                <p:messages globalOnly="false" showDetail="false" showSummary="true" autoUpdate="true" />
-                <h:form>
-                    <p:panelGrid columns="2" styleClass="edit left columns two">
-                        <f:facet name="header">Jobdetails</f:facet>
+        <p:messages globalOnly="false" showDetail="false" showSummary="true" autoUpdate="true" />
+        <h:form>
+            <p:panelGrid columns="2" styleClass="edit left columns two">
+                <f:facet name="header">Jobdetails</f:facet>
 
-                        <p:outputLabel for="dateIncoming" value="Jobnummer:" />
-                        <p:inputText id="jobId" value="#{jobEditController.job.id}" disabled="true" />
+                <p:outputLabel for="jobId" value="Jobnummer:" />
+                <p:inputText id="jobId" value="#{jobEditController.job.id}" disabled="true" />
 
-                        <p:outputLabel for="dateIncoming" value="Eingangsdatum:" />
-                        <p:calendar id="dateIncoming" value="#{jobEditController.job.dateIncoming}" validatorMessage="Bitte geben Sie ein korrektes Datum ein: TT.MM.YY" mask="true">
-                            <f:validateRequired />
-                            <p:ajax />
-                        </p:calendar>
+                <p:outputLabel for="dateIncoming" value="Eingangsdatum:" />
+                <p:calendar id="dateIncoming" value="#{jobEditController.job.dateIncoming}" navigator="true" requiredMessage="Eingangsdatum wird benötigt." />
 
-                        <p:outputLabel for="arranger" value="Bearbeiter:" />
-                        <p:selectManyMenu id="arranger" required="true"  validatorMessage="Bitte mindestens einen Bearbeiter angeben." value="#{jobEditController.job.arranger}" filter="true" filterMatchMode="contains" showCheckbox="true" converter="omnifaces.SelectItemsConverter">
-                            <f:selectItems value="#{userItemSelectProvider.users}" var="entity" itemLabel="#{entity.firstname} #{entity.lastname}" itemValue="#{entity}" />
-                            <f:validateRequired />
-                        </p:selectManyMenu>
+                <p:outputLabel for="arranger" value="Bearbeiter:" />
+                <p:selectManyMenu id="arranger" required="true"  validatorMessage="Bitte mindestens einen Bearbeiter angeben." value="#{jobEditController.job.arranger}" filter="true" filterMatchMode="contains" showCheckbox="true" converter="omnifaces.SelectItemsConverter">
+                    <f:attribute name="collectionType" value="java.util.ArrayList" />
+                    <f:selectItems value="#{users}" var="user" itemLabel="#{user.firstname} #{user.lastname}" itemValue="#{user}" />
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:selectManyMenu>
 
-                        <p:outputLabel for="delivery" value="Lieferart:" />
-                        <p:selectOneMenu id="delivery" value="#{jobEditController.job.delivery}">
-                            <f:selectItem itemLabel="Bitte wählen" noSelectionOption="true" />
-                            <f:selectItems value="#{deliveryItemSelectProvider.deliveries}" />
-                            <f:validateRequired />
-                        </p:selectOneMenu>
+                <p:outputLabel for="delivery" value="Lieferart:" />
+                <p:selectOneMenu id="delivery" value="#{jobEditController.job.delivery}">
+                    <f:selectItem itemLabel="Bitte wählen" noSelectionOption="true" />
+                    <f:selectItems value="#{deliveryItemSelectProvider.deliveries}" />
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:selectOneMenu>
 
-                        <p:outputLabel for="description" value="Beschreibung:" />
-                        <p:inputTextarea id="description" rows="6" cols="30" value="#{jobEditController.job.description}">
-                            <f:validateRequired />
-                        </p:inputTextarea>
+                <p:outputLabel for="description" value="Beschreibung:" />
+                <p:inputTextarea id="description" rows="6" cols="30" value="#{jobEditController.job.description}">
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:inputTextarea>
 
-                        <p:outputLabel for="note" value="Notizen:" />
-                        <p:inputTextarea id="note" rows="6" cols="30" value="#{jobEditController.job.note}" />
+                <p:outputLabel for="note" value="Notizen:" />
+                <p:inputTextarea id="note" rows="6" cols="30" value="#{jobEditController.job.note}" />
 
-                        <p:outputLabel for="invoiceNumber" value="Rechnungsnummer:" />
-                        <p:inputText id="invoiceNumber" value="#{jobEditController.job.invoiceNumber}" />
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" styleClass="edit right columns two">
-                        <f:facet name="header">Kunde</f:facet>
+                <p:outputLabel for="invoiceNumber" value="Rechnungsnummer:" />
+                <p:inputText id="invoiceNumber" value="#{jobEditController.job.invoiceNumber}" />
+            </p:panelGrid>
+            <p:panelGrid columns="2" styleClass="edit right columns two">
+                <f:facet name="header">Kunde</f:facet>
 
-                        <p:outputLabel for="customer" value="Kunde:" />
-                        <p:selectOneMenu id="customer" immediate="true" value="#{jobEditController.job.customer}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
-                            <f:selectItem itemLabel="Bitte wählen" noSelectionOption="true" />
-                            <f:selectItems value="#{customerItemSelectProvider.customers}" var="customer" itemValue="#{customer}" itemLabel="#{customer.name}" />
-                            <f:validateRequired />
-                            <p:ajax update="zip,town,street,contactPerson,phone,mobile,fax,mail" />
-                        </p:selectOneMenu>
+                <p:outputLabel for="customer" value="Kunde:" />
+                <p:selectOneMenu id="customer" immediate="true" value="#{jobEditController.job.customer}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="Bitte wählen" noSelectionOption="true" />
+                    <f:selectItems value="#{customers}" var="customer" itemValue="#{customer}" itemLabel="#{customer.name}" />
+                    <f:validateRequired />
+                    <p:ajax update="zip,town,street,contactPerson,phone,mobile,fax,mail" />
+                </p:selectOneMenu>
 
-                        <p:outputLabel for="zip" value="PLZ: " />
-                        <p:inputText id="zip" value="#{jobEditController.job.customer.zip}" disabled="true" />
+                <p:outputLabel for="zip" value="PLZ: " />
+                <p:inputText id="zip" value="#{jobEditController.job.customer.zip}" disabled="true" />
 
-                        <p:outputLabel for="town" value="Stadt: " />
-                        <p:inputText id="town" value="#{jobEditController.job.customer.town}" disabled="true" />
+                <p:outputLabel for="town" value="Stadt: " />
+                <p:inputText id="town" value="#{jobEditController.job.customer.town}" disabled="true" />
 
-                        <p:outputLabel for="street" value="Straße: " />
-                        <p:inputText id="street" value="#{jobEditController.job.customer.street}" disabled="true" />
+                <p:outputLabel for="street" value="Straße: " />
+                <p:inputText id="street" value="#{jobEditController.job.customer.street}" disabled="true" />
 
-                        <p:outputLabel for="contactPerson" value="Ansprechpartner: " />
-                        <p:inputText id="contactPerson" value="#{jobEditController.job.customer.contactPerson}" disabled="true" />
+                <p:outputLabel for="contactPerson" value="Ansprechpartner: " />
+                <p:inputText id="contactPerson" value="#{jobEditController.job.customer.contactPerson}" disabled="true" />
 
-                        <p:outputLabel for="phone" value="Telefon: " />
-                        <p:inputText id="phone" value="#{jobEditController.job.customer.phone}" disabled="true" />
+                <p:outputLabel for="phone" value="Telefon: " />
+                <p:inputText id="phone" value="#{jobEditController.job.customer.phone}" disabled="true" />
 
-                        <p:outputLabel for="mobile" value="Mobil: " />
-                        <p:inputText id="mobile" value="#{jobEditController.job.customer.mobile}" disabled="true" />
+                <p:outputLabel for="mobile" value="Mobil: " />
+                <p:inputText id="mobile" value="#{jobEditController.job.customer.mobile}" disabled="true" />
 
-                        <p:outputLabel for="fax" value="Fax: " />
-                        <p:inputText id="fax" value="#{jobEditController.job.customer.fax}" disabled="true" />
+                <p:outputLabel for="fax" value="Fax: " />
+                <p:inputText id="fax" value="#{jobEditController.job.customer.fax}" disabled="true" />
 
-                        <p:outputLabel for="mail" value="Mail: " />
-                        <p:inputText id="mail" value="#{jobEditController.job.customer.mail}" disabled="true" />
-                    </p:panelGrid>
-                    <div class="clearfix"></div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Tasks">
-                <p:dataList id="tasks" value="#{jobEditController.job.tasks}" var="task">
-                    <p:column headerText="Taskbeschreibung">
-                        <h:outputText value="#{task.description}" />
-                    </p:column>
-                    <p:column headerText="Bearbeiter">
-                        <h:outputText value="#{task.arranger}" />
-                    </p:column>
-                    <p:column headerText="Zeit">
-                        <h:outputText value="#{task.neededTime}" />
-                    </p:column>
-                </p:dataList>
-            </p:tab>
-            <p:tab title="Fremdleistungen">
-                <p:dataList id="externalServices" value="#{jobEditController.job.externalServices}" var="ext">
-                    <p:column headerText="Taskbeschreibung">
-                        <h:outputText value="#{ext.description}" />
-                    </p:column>
-                    <p:column headerText="Bearbeiter">
-                        <h:outputText value="#{ext.lieferant.name}" />
-                    </p:column>
-                    <p:column headerText="Zeit">
-                        <h:outputText value="#{ext.cost}" />
-                    </p:column>
-                </p:dataList>
-            </p:tab>
-        </p:tabView>
-        <h:form styleClass="bottomControls">
-            <p:commandButton value="Speichern" action="#{jobEditController.doSave()}" />
-            <p:commandButton value="Abbrechen" action="#{jobEditController.doCancel()}" immediate="true" />
+                <p:outputLabel for="mail" value="Mail: " />
+                <p:inputText id="mail" value="#{jobEditController.job.customer.mail}" disabled="true" />
+            </p:panelGrid>
+            <div class="clearfix"></div>
+            <div class="bottomControls">
+                <p:commandButton value="Speichern" action="#{jobEditController.doSave()}" />
+                <p:commandButton value="Abbrechen" action="#{jobEditController.doCancel()}" immediate="true" />
+            </div>
         </h:form>
     </ui:define>
 </ui:composition>

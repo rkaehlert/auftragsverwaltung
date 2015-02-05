@@ -7,7 +7,13 @@
 
     <ui:define name="content">
         <h:outputScript library="js" name="script.js" />
-        <h1>#{jobViewController.title}</h1>
+        <h:form>
+            <p:breadCrumb>
+                <p:menuitem value="Dashboard" action="#{dashboardController.doLoadDashboard()}" />
+                <p:menuitem value="Jobs" action="#{jobListController.doListJobs()}" />
+                <p:menuitem value="#{jobViewController.job.id}" />
+            </p:breadCrumb>
+        </h:form>
         <p:tabView>
             <p:tab title="Jobdetails">
                 <h:form>
@@ -26,7 +32,7 @@
                         </ui:repeat>
 
                         <p:outputLabel for="delivery" value="Lieferart:" />
-                        <h:outputText id="delivery" value="#{jobViewController.job.delivery}" />
+                        <h:outputText id="delivery" value="#{jobViewController.job.deliveryDescription}" />
 
                         <p:outputLabel for="description" value="Beschreibung:" />
                         <h:outputText id="description" value="#{jobViewController.job.description}" />
@@ -49,7 +55,7 @@
                         <p:outputLabel for="town" value="Stadt: " />
                         <h:outputText id="town" value="#{jobViewController.job.customer.town}" />
 
-                        <p:outputLabel for="street" value="Straße: " />
+                        <p:outputLabel for="street" value="StraÃŸe: " />
                         <h:outputText id="street" value="#{jobViewController.job.customer.street}" />
 
                         <p:outputLabel for="contactPerson" value="Ansprechpartner: " />
@@ -71,30 +77,38 @@
                 </h:form>
             </p:tab>
             <p:tab title="Tasks">
-                <p:dataList id="tasks" value="#{jobViewController.job.tasks}" var="task">
-                    <p:column headerText="Taskbeschreibung">
-                        <h:outputText value="#{task.description}" />
-                    </p:column>
-                    <p:column headerText="Bearbeiter">
-                        <h:outputText value="#{task.arranger}" />
-                    </p:column>
-                    <p:column headerText="Zeit">
-                        <h:outputText value="#{task.neededTime}" />
-                    </p:column>
-                </p:dataList>
+                <h:form>
+                    <p:dataTable id="tasks" value="#{jobViewController.job.tasks}" var="task">
+                        <p:column width="50">
+                            <p:commandButton styleClass="editButton" value="" title="Task bearbeiten" action="#{jobViewController.doEditTask(task)}" />
+                        </p:column>
+                        <p:column headerText="Taskbeschreibung">
+                            <h:outputText value="#{task.description}" />
+                        </p:column>
+                        <p:column headerText="Bearbeiter">
+                            <h:outputText value="#{task.arranger}" />
+                        </p:column>
+                        <p:column headerText="Benötigte Zeit">
+                            <h:outputText value="#{task.neededTime}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Task hinzufügen" action="#{jobViewController.doAddTask()}" />
+                </h:form>
             </p:tab>
             <p:tab title="Fremdleistungen">
-                <p:dataList id="externalServices" value="#{jobViewController.job.externalServices}" var="ext">
-                    <p:column headerText="Taskbeschreibung">
-                        <h:outputText value="#{ext.description}" />
-                    </p:column>
-                    <p:column headerText="Bearbeiter">
-                        <h:outputText value="#{ext.provider.name}" />
-                    </p:column>
-                    <p:column headerText="Zeit">
-                        <h:outputText value="#{ext.cost}" />
-                    </p:column>
-                </p:dataList>
+                <h:form>
+                    <p:dataTable id="externalServices" value="#{jobViewController.job.externalServices}" var="ext">
+                        <p:column headerText="Taskbeschreibung">
+                            <h:outputText value="#{ext.description}" />
+                        </p:column>
+                        <p:column headerText="Zulieferer">
+                            <h:outputText value="#{ext.provider.name}" />
+                        </p:column>
+                        <p:column headerText="KOsten">
+                            <h:outputText value="#{ext.cost}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
             </p:tab>
         </p:tabView>
     </ui:define>

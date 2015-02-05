@@ -1,18 +1,18 @@
-package de.fresko.auftragsverwaltung.usermanagement.boundary;
+package de.fresko.auftragsverwaltung.usermanagement.service;
 
 import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
+import de.fresko.auftragsverwaltung.util.Events;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
-public class UserService {
+public class FreskoUserService {
 
-    @PersistenceContext
+    @Inject
     EntityManager em;
 
     public List<FreskoUser> getAllFreskoUsers() {
@@ -23,11 +23,8 @@ public class UserService {
         return em.find(FreskoUser.class, id);
     }
 
-    public FreskoUser updateUser(FreskoUser user) {
-        if (user.getId() == null)
-            em.persist(user);
-        else
-            user = em.merge(user);
+    public FreskoUser updateUser(@Observes @Events.Updated FreskoUser user) {
+        user = em.merge(user);
         return user;
     }
 
@@ -40,7 +37,7 @@ public class UserService {
             System.out.println("no user");
             return null;
         }
-        
+
         FreskoUser user = users.get(0);
 
         if (!user.checkPassword(password)) {

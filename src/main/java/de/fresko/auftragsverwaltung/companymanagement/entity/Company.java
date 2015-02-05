@@ -1,13 +1,29 @@
 package de.fresko.auftragsverwaltung.companymanagement.entity;
 
+import de.fresko.auftragsverwaltung.jobmanagement.entity.Job;
+import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
+@NamedQueries({
+    @NamedQuery(name = Company.FIND_ALL, query = "SELECT c FROM Company c ORDER BY c.name"),
+    @NamedQuery(name = Company.FIND_CUSTOMERS, query = "SELECT c FROM Company c WHERE c.isCustomer = 1 ORDER BY c.name"),
+    @NamedQuery(name = Company.FIND_PROVIDERS, query = "SELECT c FROM Company c WHERE c.isProvider = 1 ORDER BY c.name")
+})
 @Entity
 public class Company implements Serializable {
     
+    public static final String FIND_ALL = "Company.findAll";
+    public static final String FIND_CUSTOMERS = "Company.findCustomers";
+    public static final String FIND_PROVIDERS = "Company.findProviders";
+        
     @Id
     @GeneratedValue
     private Long id;
@@ -15,6 +31,7 @@ public class Company implements Serializable {
     private String zip;
     private String town;
     private String street;
+    private String housenumber;
 
     private String contactPerson;
     private String mail;
@@ -24,6 +41,17 @@ public class Company implements Serializable {
     
     private boolean isCustomer;
     private boolean isProvider;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<Job> jobs;
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
     
     public Company() {
         
@@ -125,5 +153,30 @@ public class Company implements Serializable {
         this.isProvider = isProvider;
     }
     
+        public String getHousenumber() {
+        return housenumber;
+    }
+
+    public void setHousenumber(String housenumber) {
+        this.housenumber = housenumber;
+    }    
     
+    @Override
+    public String toString() {
+        return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Company comp = (Company)obj;
+        return Objects.equals(comp.id, this.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
 }

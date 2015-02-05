@@ -1,6 +1,6 @@
 package de.fresko.auftragsverwaltung.servlets;
 
-import de.fresko.auftragsverwaltung.usermanagement.controller.PWService;
+import de.fresko.auftragsverwaltung.usermanagement.service.FreskoUserPasswordService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "createPW", urlPatterns = {"/createPW"})
 public class createPW extends HttpServlet {
 
-    @Inject PWService pwService;
+    @Inject FreskoUserPasswordService pwService;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

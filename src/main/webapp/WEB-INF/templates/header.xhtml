@@ -20,6 +20,7 @@
                 <p:inputText style="margin-right:10px" placeholder="Search"/>
             </f:facet>
             <p:submenu label="#{loginController.user.firstname}" id="userMenu" icon="ui-icon-contact">
+                <p:menuitem value="Einstellungen" action="#{loginController.editUser()}" />
                 <p:menuitem value="abmelden" action="#{loginController.logout}" />
             </p:submenu>
         </p:menubar>

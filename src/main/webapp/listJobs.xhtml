@@ -8,15 +8,21 @@
     <ui:define name="content">
         <h1>Jobs</h1>
         <h:form acceptcharset="ISO-8859-1">
-            <p:dataTable id="jobsTable" style="width:100%" widgetVar="jobsTable" var="job" value="#{jobListProducer.jobs}"  selectionMode="single" selection="#{jobListTableView.selectedJob}" rowKey="#{job.id}">
+            <p:dataTable id="jobsTable" widgetVar="jobsTable" var="job" value="#{jobs}"  selectionMode="single" selection="#{jobListTableView.selectedJob}" rowKey="#{job.id}">
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="In allen Feldern suchen:" />
                         <p:inputText id="globalFilter" onkeyup="PF('jobsTable').filter()" style="width:150px" placeholder="Suchbegriff eingeben:"/>
                     </p:outputPanel>
                 </f:facet>
-                <p:column>
-                    <p:commandButton styleClass="editButton" title="Details anzeigen" action="#{jobListController.doViewJob(job)}" />
+                <p:column width="50">
+                    <p:commandButton styleClass="deleteButton" value="" title="Job löschen" onclick="confirmation.show()" action="#{jobListController.doDeleteJob(job)}" />
+                </p:column>
+                <p:column width="50">
+                    <p:commandButton styleClass="viewButton" value="" title="Details anzeigen" action="#{jobListController.doViewJob(job)}" />
+                </p:column>
+                <p:column  width="50">
+                    <p:commandButton styleClass="editButton" value="" title="Job bearbeiten" action="#{jobListController.doEditJob(job)}" />
                 </p:column>
                 <p:column headerText="Auftragsnummer" filterBy="#{job.id}" filterFunction="#{jobListTableView.filterContainsInsensitive}">
                     <h:outputText value="#{job.id}" />
@@ -24,7 +30,12 @@
                 <p:column headerText="Kunde" filterBy="#{job.customer.name}" filterFunction="#{jobListTableView.filterContainsInsensitive}">
                     <h:outputText value="#{job.customer.name}" />
                 </p:column>
-                <p:column headerText="Beschreibung" filterBy="#{job.description}" rendered="true" filterFunction="#{jobListTableView.filterContainsInsensitive}">
+                <p:column headerText="Bearbeiter" filterBy="#{jobListController.getAllArrangers(job)}" filterFunction="#{jobListTableView.filterContainsInsensitive}">
+                    <ui:repeat value="#{job.arranger}" var="arranger">
+                        <h:outputText value="#{arranger.name}&lt;br/&gt;" />
+                    </ui:repeat>
+                </p:column>
+                <p:column headerText="Beschreibung" filterBy="#{job.description}" filterFunction="#{jobListTableView.filterContainsInsensitive}">
                     <h:outputText value="#{job.description}" />
                 </p:column>
                 <p:column headerText="Eingangsdatum" filterBy="#{job.dateIncoming}" filterMatchMode="contains">
@@ -34,6 +45,10 @@
                 </p:column>
                 <p:column rendered="false" filterBy="#{jobListController.getAllTasks(job)}" filterFunction="#{jobListTableView.filterContainsInsensitive}" />
             </p:dataTable>
+            <p:confirmDialog message="Job wirklich löschen?" header="Job löschen" severity="alert" widgetVar="confirmation">
+                <p:commandButton value="Ja" onclick="confirmation.hide()" actionListener="#{jobListController.commitDeleteJob()}" />
+                <p:commandButton value="Nein" onclick="confirmation.hide()" />
+            </p:confirmDialog>
         </h:form>
     </ui:define>
 </ui:composition>

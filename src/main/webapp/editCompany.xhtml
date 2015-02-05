@@ -1,16 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:outputScript library="js" name="script.js" />
+        <h1>#{companyEditController.title}</h1>
+        <p:messages globalOnly="false" showDetail="false" showSummary="true" autoUpdate="true" />
+        <h:form>
+            <p:panelGrid columns="2" styleClass="edit">
+                <f:facet name="header">Firmendetails</f:facet>
+
+                <p:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{companyEditController.company.name}" validatorMessage="Bitte einen Namen angeben.">
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:inputText>
+
+                <p:outputLabel for="zip" value="Postleitzahl:" />
+                <p:inputText id="zip" value="#{companyEditController.company.zip}" validatorMessage="Bitte einen gültige Plz angeben.">
+                    <f:validateRegex pattern="[0-9]{5}" />
+                    <p:ajax />
+                </p:inputText>
+
+                <p:outputLabel for="town" value="Stadt:" />
+                <p:inputText id="town" value="#{companyEditController.company.town}" validatorMessage="Bitte eine Stadt angeben.">
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:inputText>  
+
+                <p:outputLabel for="street" value="Straße:" />
+                <p:inputText id="street" value="#{companyEditController.company.street}" requiredMessage="Bitte eine Straße angeben.">
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:inputText>
+
+                <p:outputLabel for="housenumber" value="Hausnummer:" />
+                <p:inputText id="housenumber" value="#{companyEditController.company.housenumber}" requiredMessage="Bitte eine Hausnummer angeben.">
+                    <f:validateRequired />
+                    <p:ajax />
+                </p:inputText>
+
+                <p:outputLabel for="contactPerson" value="Kontaktperson:" />
+                <p:inputText id="contactPerson" value="#{companyEditController.company.contactPerson}" />
+
+                <p:outputLabel for="phone" value="Telefon:" />
+                <p:inputText id="phone" value="#{companyEditController.company.phone}" />
+
+                <p:outputLabel for="fax" value="Fax:" />
+                <p:inputText id="fax" value="#{companyEditController.company.fax}" />
+
+                <p:outputLabel for="mobile" value="Mobil:" />
+                <p:inputText id="mobile" value="#{companyEditController.company.mobile}" />
+
+                <p:outputLabel for="mail" value="Mail:" />
+                <p:inputText id="mail" value="#{companyEditController.company.mail}" />
+                 
+                <p:outputLabel for="isCustomer" value="ist Kunde:" />
+                <p:inputSwitch id="isCustomer" value="#{companyEditController.company.isCustomer}" offLabel="nein" onLabel="ja" />
+
+                <p:outputLabel for="isProvider" value="ist Lieferant:" />
+                <p:inputSwitch id="isProvider" value="#{companyEditController.company.isProvider}" offLabel="nein" onLabel="ja" />
+            </p:panelGrid>
+            <div class="bottomControls">
+                <p:commandButton value="Speichern" action="#{companyEditController.doSave()}" />
+                <p:commandButton value="Abbrechen" action="#{companyEditController.doCancel()}" immediate="true" />
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

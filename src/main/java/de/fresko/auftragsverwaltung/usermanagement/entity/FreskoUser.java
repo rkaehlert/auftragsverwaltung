@@ -1,12 +1,12 @@
 package de.fresko.auftragsverwaltung.usermanagement.entity;
 
 import de.fresko.auftragsverwaltung.jobmanagement.entity.Job;
-import de.fresko.auftragsverwaltung.usermanagement.controller.PWService;
+import de.fresko.auftragsverwaltung.usermanagement.service.FreskoUserPasswordService;
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Size;
 
-@Entity
 @NamedQueries({
     @NamedQuery(
             name = FreskoUser.FIND_BY_USERNAME,
@@ -28,6 +27,7 @@ import javax.validation.constraints.Size;
             name = FreskoUser.FIND_ALL,
             query = "SELECT u FROM FreskoUser u"
     )})
+@Entity
 public class FreskoUser implements Serializable {
 
     public static final String FIND_BY_USERNAME = "User.FinyByUsername";
@@ -49,7 +49,7 @@ public class FreskoUser implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastLogin;
     @ManyToMany(mappedBy = "arranger", fetch = FetchType.EAGER)
-    private Set<Job> jobs;
+    private List<Job> jobs;
 
     public FreskoUser() {
     }
@@ -59,7 +59,7 @@ public class FreskoUser implements Serializable {
         this.firstname = firstname;
         this.lastname = lastname;
     }
-    
+
     public FreskoUser(String email, String password, Date lastLogin) {
         this.username = email;
         this.password = password;
@@ -67,7 +67,7 @@ public class FreskoUser implements Serializable {
     }
 
     public boolean checkPassword(String testPassword) {
-        return new PWService().checkPW(testPassword, this.password);
+        return new FreskoUserPasswordService().checkPW(testPassword, this.password);
     }
 
     public Long getId() {
@@ -78,14 +78,14 @@ public class FreskoUser implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
+    public String getUsername() {
         return username;
     }
 
-    public void setEmail(String email) {
-        this.username = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
-
+    
     public String getPassword() {
         return password;
     }
@@ -118,6 +118,10 @@ public class FreskoUser implements Serializable {
         this.lastname = lastname;
     }
 
+    public String getName() {
+        return firstname + " " + lastname;
+    }
+
     @Override
     public String toString() {
         return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
@@ -125,7 +129,7 @@ public class FreskoUser implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        FreskoUser user = (FreskoUser)obj;
+        FreskoUser user = (FreskoUser) obj;
         return Objects.equals(user.id, this.id);
     }
 

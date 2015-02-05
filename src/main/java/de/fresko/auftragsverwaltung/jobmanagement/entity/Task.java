@@ -3,9 +3,13 @@ package de.fresko.auftragsverwaltung.jobmanagement.entity;
 import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 @Entity
 public class Task implements Serializable {
@@ -15,10 +19,17 @@ public class Task implements Serializable {
     private long id;
     private String description;
     private int neededTime;
-    private FreskoUser arranger;
+    @ManyToMany
+    private List<FreskoUser> arranger;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateFinished;
     private boolean finished;
 
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateTaskAdded;
+    @ManyToOne
+    private FreskoUser userTaskAdded;
+    
     public Task() {
     }
 
@@ -46,11 +57,11 @@ public class Task implements Serializable {
         this.neededTime = neededTime;
     }
 
-    public FreskoUser getArranger() {
+    public List<FreskoUser> getArranger() {
         return arranger;
     }
 
-    public void setArranger(FreskoUser arranger) {
+    public void setArranger(List<FreskoUser> arranger) {
         this.arranger = arranger;
     }
 
@@ -69,6 +80,4 @@ public class Task implements Serializable {
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
-
-    
 }

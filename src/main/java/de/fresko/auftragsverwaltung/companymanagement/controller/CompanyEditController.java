@@ -2,14 +2,16 @@ package de.fresko.auftragsverwaltung.companymanagement.controller;
 
 import de.fresko.auftragsverwaltung.companymanagement.entity.Company;
 import de.fresko.auftragsverwaltung.controller.Pages;
-import de.fresko.auftragsverwaltung.data.CompanyListProducer;
-import de.fresko.auftragsverwaltung.data.JobListProducer;
+import de.fresko.auftragsverwaltung.companymanagement.boundary.CompanyListProducer;
+import de.fresko.auftragsverwaltung.jobmanagement.boundary.JobListProducer;
 import de.fresko.auftragsverwaltung.jobmanagement.entity.Job;
+import de.fresko.auftragsverwaltung.util.Events;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Objects;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -20,15 +22,20 @@ public class CompanyEditController implements Serializable {
     @Inject
     private CompanyListProducer companyListProducer;
 
+    @Inject @Events.Added
+    private Event<Company> companyAddEventSrc;
+    
+    @Inject @Events.Updated
+    private Event<Company> companyUpdateEventSrc;
+    
     public enum Mode {
-
         EDIT, ADD
     };
 
     private Company company;
     private Mode mode;
 
-    public Company getJob() {
+    public Company getCompany() {
         return company;
     }
 
@@ -41,20 +48,14 @@ public class CompanyEditController implements Serializable {
         this.mode = mode;
     }
 
-    public void doSave() {
+    public String doSave() {
         if (getMode() == Mode.ADD) {
-            companyListProducer.getCompanies().add(company);
+            companyAddEventSrc.fire(company);
         }
-        else {
-            int index = 0;
-            for (Company next : companyListProducer.getCompanies()) {
-                if (Objects.equals(next.getId(), this.company.getId())) {
-                    companyListProducer.getCompanies().set(index, this.company);
-                    System.out.println("Replaced Company.");
-                }
-                index++;
-            }
+        else if(getMode() == Mode.EDIT) {
+            companyUpdateEventSrc.fire(company);
         }
+        return Pages.COMPANY_LIST;
     }
 
     public String doCancel() {

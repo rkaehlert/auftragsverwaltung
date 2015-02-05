@@ -4,6 +4,7 @@ import de.fresko.auftragsverwaltung.companymanagement.entity.Company;
 import de.fresko.auftragsverwaltung.exceptions.*;
 import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import java.util.*;
 import javax.persistence.Entity;
@@ -11,34 +12,45 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
+@NamedQueries({
+    @NamedQuery(name=Job.findAll, query="SELECT j FROM Job j ORDER BY j.id DESC")
+})
 @Entity
 public class Job implements Serializable {
-
+    
+    public static final String findAll = "Job.findAll";
+    
     @Id
     private String id;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateIncoming;
-    @ManyToMany
-    private Set<FreskoUser> arranger;
-    private String delivery;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<FreskoUser> arranger = new ArrayList<>();
+    private EnumDeliveryTypes delivery;
     private String description;
     private String note;
-    private String contact;
     private String invoiceNumber;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateFinished;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company customer;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Task> tasks = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<ExternalService> externalServices = new ArrayList<>();
 
+    @ManyToOne
+    private FreskoUser userLastEdited;
+    private Timestamp dateAdded;
+    private Timestamp dateLastEdited;
+    
     public Job() {
         id = "job-123";
     }
@@ -46,13 +58,13 @@ public class Job implements Serializable {
     public void addTask(Task t) {
         this.tasks.add(t);
     }
-    
+
     public String getId() {
         return id;
     }
 
-    public void setId(String jobID) {
-        this.id = jobID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Date getDateIncoming() {
@@ -63,19 +75,19 @@ public class Job implements Serializable {
         this.dateIncoming = dateIncoming;
     }
 
-    public Set<FreskoUser> getArranger() {
+    public List<FreskoUser> getArranger() {
         return arranger;
     }
 
-    public void setArranger(Set<FreskoUser> bearbeiter) {
-        this.arranger = bearbeiter;
+    public void setArranger(List<FreskoUser> arranger) {
+        this.arranger = arranger;
     }
 
-    public String getDelivery() {
+    public EnumDeliveryTypes getDelivery() {
         return delivery;
     }
 
-    public void setDelivery(String delivery) {
+    public void setDelivery(EnumDeliveryTypes delivery) {
         this.delivery = delivery;
     }
 
@@ -93,14 +105,6 @@ public class Job implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
     }
 
     public String getInvoiceNumber() {
@@ -142,7 +146,33 @@ public class Job implements Serializable {
     public void setExternalServices(List<ExternalService> externalServices) {
         this.externalServices = externalServices;
     }
+
+    public FreskoUser getUserLastEdited() {
+        return userLastEdited;
+    }
+
+    public void setUserLastEdited(FreskoUser userLastEdited) {
+        this.userLastEdited = userLastEdited;
+    }
+
+    public Timestamp getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Timestamp dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public Timestamp getDateLastEdited() {
+        return dateLastEdited;
+    }
+
+    public void setDateLastEdited(Timestamp dateLastEdited) {
+        this.dateLastEdited = dateLastEdited;
+    }
+
     
+
     public String erzeugeJobnummer() throws JobnummerException {
 //		String jobnummer = null;
 //		StringTokenizer st;

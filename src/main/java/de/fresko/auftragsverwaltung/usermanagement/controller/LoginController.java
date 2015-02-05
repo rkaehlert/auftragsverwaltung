@@ -1,6 +1,7 @@
 package de.fresko.auftragsverwaltung.usermanagement.controller;
 
-import de.fresko.auftragsverwaltung.usermanagement.boundary.UserService;
+import de.fresko.auftragsverwaltung.controller.Pages;
+import de.fresko.auftragsverwaltung.usermanagement.service.FreskoUserService;
 import de.fresko.auftragsverwaltung.usermanagement.entity.FreskoUser;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -16,19 +17,23 @@ import javax.inject.Named;
 public class LoginController implements Serializable {
 
     @Inject
-    UserService userService;
+    FreskoUserService userService;
 
     private String username;
     private String password;
     private FreskoUser user;
 
     @Produces
+    @LoggedInUser
     @SessionScoped
     @Named
     FreskoUser loggedInUser() {
         return user;
     }
 
+    public LoginController() {
+    }
+    
     public String login() {
         user = userService.loginUser(username, password);
         if (user != null) {
@@ -48,11 +53,15 @@ public class LoginController implements Serializable {
     public FreskoUser getUser() {
         return user;
     }
-    
+
+    public String editUser() {
+        return Pages.USER_EDIT;
+    }
+
     public String logout() {
         return "login.xhtml";
     }
-    
+
     public String getUsername() {
         return username;
     }
